@@ -18,6 +18,20 @@ spec:
 
 ---
 
+# External CIDRs storefront must access
+apiVersion: projectcalico.org/v3
+kind: NetworkSet
+metadata:
+  labels:
+    external: twilio
+  name: allowed-external-destinations
+  namespace: storefront
+spec:
+  nets:
+  - 34.198.37.145/32
+  
+---
+
 #Global polcies to allow dns traffic, and quarentine workloads if needed
 apiVersion: projectcalico.org/v3
 kind: GlobalNetworkPolicy
