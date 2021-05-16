@@ -112,7 +112,6 @@ spec:
       ports:
       - 80
       - 443
-      selector: external == "twilio"
     protocol: TCP
     source: {}
   ingress:
