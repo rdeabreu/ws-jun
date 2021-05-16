@@ -157,6 +157,7 @@ spec:
   tier: default
   types:
   - Ingress
+  - Egress
 
 ---
 
