@@ -1,4 +1,4 @@
-cat << EOF > storefront-sec.yaml
+cat << EOF > policies.yaml
 # Create the needed tiers for the rules
 apiVersion: projectcalico.org/v3
 kind: Tier
