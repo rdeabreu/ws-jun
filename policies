@@ -1,0 +1,39 @@
+cat << EOF > dmz.yaml
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: platform.allow-dns
+spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 53
+      selector: k8s-app == "kube-dns"
+    protocol: UDP
+    source: {}
+  - action: Pass
+    destination: {}
+    source: {}
+  namespaceSelector: twilio == "allowed"||has(fw-zone)
+  order: 0
+  tier: platform
+  types:
+  - Egress
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: security.quarantine
+spec:
+  egress:
+  - action: Deny
+    destination: {}
+    source: {}
+  order: 0
+  selector: sec == "quarantine"
+  tier: security
+  types:
+  - Egress
