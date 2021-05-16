@@ -1,4 +1,24 @@
 cat << EOF > dmz.yaml
+# Create the needed tiers for the rules
+apiVersion: projectcalico.org/v3
+kind: Tier
+metadata:
+  name: security
+spec:
+  order: 125
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: Tier
+metadata:
+  name: platform
+spec:
+  order: 150
+
+---
+
+#Global polcies to allow dns traffic, and quarentine workloads if needed
 apiVersion: projectcalico.org/v3
 kind: GlobalNetworkPolicy
 metadata:
@@ -40,6 +60,7 @@ spec:
 
 ---
 
+#Storefront specific rules
 apiVersion: projectcalico.org/v3
 kind: NetworkPolicy
 metadata:
@@ -51,7 +72,7 @@ spec:
     destination:
       ports:
       - 8080
-      selector: fw-zone == "trusted"||app == "logging"
+      selector: fw-zone == "trusted"|| app == "logging"
     protocol: TCP
     source: {}
   - action: Allow
