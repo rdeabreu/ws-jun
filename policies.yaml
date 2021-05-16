@@ -121,6 +121,14 @@ spec:
       domains:
       - '*.twilio.com'
     source: {}
+  - action: Allow
+    destination:
+      ports:
+      - 80
+      - 443
+      selector: external == "twilio"
+    protocol: TCP
+    source: {}
   ingress:
   - action: Allow
     destination:
