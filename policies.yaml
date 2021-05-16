@@ -127,9 +127,16 @@ spec:
 apiVersion: projectcalico.org/v3
 kind: NetworkPolicy
 metadata:
-  name: default.restricted-ingress
+  name: default.backend-rules
   namespace: storefront
 spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 8080
+    protocol: TCP
+    source: {}
   ingress:
   - action: Allow
     destination:
