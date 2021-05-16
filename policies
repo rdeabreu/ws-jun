@@ -37,3 +37,140 @@ spec:
   tier: security
   types:
   - Egress
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: default.from-dmz-2-trusted
+  namespace: storefront
+spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 8080
+      selector: fw-zone == "trusted"||app == "logging"
+    protocol: TCP
+    source: {}
+  - action: Allow
+    destination:
+      nets:
+      - 0.0.0.0/0
+    source: {}
+  order: 10
+  selector: fw-zone == "dmz"
+  tier: default
+  types:
+  - Egress
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: default.restricted-ingress
+  namespace: storefront
+spec:
+  ingress:
+  - action: Allow
+    destination:
+      ports:
+      - 8080
+    protocol: TCP
+    source:
+      selector: fw-zone == "trusted"
+  order: 30
+  selector: fw-zone == "restricted"
+  tier: default
+  types:
+  - Ingress
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: default.staged-zero-trust
+  namespace: storefront
+spec:
+  egress:
+  - action: Deny
+    destination:
+      namespaceSelector: all()
+      selector: all()
+    source: {}
+  - action: Deny
+    destination:
+      nets:
+      - 0.0.0.0/0
+    source: {}
+  ingress:
+  - action: Deny
+    destination: {}
+    source:
+      namespaceSelector: all()
+      selector: all()
+  - action: Deny
+    destination: {}
+    source:
+      nets:
+      - 0.0.0.0/0
+  order: 900
+  selector: all()
+  tier: default
+  types:
+  - Ingress
+  - Egress
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: default.trusted-rules
+  namespace: storefront
+spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 8080
+      selector: fw-zone == "restricted"||fw-zone == "trusted"
+    protocol: TCP
+    source: {}
+  - action: Allow
+    destination:
+      domains:
+      - '*.twilio.com'
+    source: {}
+  - action: Deny
+    destination:
+      ports:
+      - 80
+      - 443
+    protocol: TCP
+    source: {}
+  - action: Deny
+    destination:
+      ports:
+      - 53
+    protocol: UDP
+    source: {}
+  ingress:
+  - action: Allow
+    destination:
+      ports:
+      - 8080
+    protocol: TCP
+    source:
+      selector: fw-zone == "dmz"||fw-zone == "trusted"
+  order: 20
+  selector: fw-zone == "trusted"
+  tier: default
+  types:
+  - Ingress
+  - Egress
+
+EOF
