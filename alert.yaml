@@ -1,3 +1,4 @@
+cat << EOF > alert.yaml
 #Global alert
 apiVersion: projectcalico.org/v3
 kind: GlobalAlert
@@ -23,3 +24,4 @@ spec:
   summary: Scan from ${source_namespace}/${source_name_aggr} to ${dest_namespace}/${dest_name_aggr}
     flows detected ${num_flows}
   threshold: 1
+EOF
