@@ -1,5 +1,23 @@
 # ws-may
 
+## Dynamic Packet capture
+
+```
+kubectl label pod $(kubectl get pod -o name --no-headers) sec=quarantine
+```
+```
+calicoctl create -f capture.yaml
+```
+```
+calicoctl get packetcapture
+```
+```
+calicoctl delete -f capture.yaml
+```
+```
+calicoctl captured-packets copy attacker-pcap -d "/tmp"
+```
+
 ## Cleanup:
 
 Delete the rogue application
