@@ -21,7 +21,7 @@ spec:
   query: ("dest_port" != 53 AND ("dest_namespace" = "kube-system" AND "dest_labels.labels"
     = "k8s-app=kube-dns"))
   severity: 50
-  summary: Scan from \${source_namespace}/\${source_name_aggr} to \${dest_namespace}/\${dest_name_aggr}
-    flows detected ${num_flows}
+  summary: Port Scan detected from \${source_namespace}/\${source_name_aggr} to \${dest_namespace}/\${dest_name_aggr}
+    flows detected \${num_flows}
   threshold: 1
 EOF
