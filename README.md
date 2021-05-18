@@ -3,7 +3,7 @@
 ## Dynamic Packet capture
 
 ```
-kubectl label pod $(kubectl get pod -o name --no-headers) sec=quarantine
+kubectl label $(kubectl get pod -o name --no-headers) sec=quarantine
 ```
 ```
 calicoctl create -f capture.yaml
