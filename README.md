@@ -1,5 +1,10 @@
 # ws-may
 
+```
+kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":"30s"}}'
+kubectl patch felixconfiguration.p default -p '{"spec":{"dnsLogsFlushInterval":"30s"}}'
+```
+
 ## Dynamic Packet capture
 
 ```
